@@ -26,7 +26,7 @@ class ArtistDetailSerializers(serializers.ModelSerializer):
     class Meta(ArtistSerializers.Meta):
         fields = ArtistSerializers.Meta.fields + ['music_set']
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ReviewSerializers(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['content']

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Music, Artist, Review
 from rest_framework.decorators import api_view
-from .serializers import MusicSerializers, ArtistSerializers, ArtistDetailSerializers, ReviewSerializer
+from .serializers import MusicSerializers, ArtistSerializers, ArtistDetailSerializers, ReviewSerializers
 from rest_framework.response import Response
 
 
@@ -22,7 +22,7 @@ def detail(request, music_pk):
     """
     music = get_object_or_404(Music, pk=music_pk)
     serializer = MusicSerializers(music)
-    # 쿼리셋이 아니라 단이 ㄹ오브젝트라 매니는트류 필요없ㅇ므
+    # 쿼리셋이 아니라 단일 오브젝트라 매니는트류 필요없ㅇ므
     return Response(serializer.data)
 
 # 아티스트 목록
@@ -47,7 +47,7 @@ def artists_detail(request, artist_pk):
 # 리뷰 작성
 @api_view(['POST'])
 def review_create(request, music_pk):
-    serializer = ReviewSerializer(data=request.data)
+    serializer = ReviewSerializers(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(music_id=music_pk)
     return Response({'message': 'review가 등록되었습니다.'})
@@ -56,7 +56,7 @@ def review_create(request, music_pk):
 def review_update_delete(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     if request.method == 'PUT':
-        serializer = ReviewSerializer(data=request.data, instance=review)
+        serializer = ReviewSerializers(data=request.data, instance=review)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
